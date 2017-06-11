@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="CACHE-CONTROL" content="NO-CACHE">
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.2.3/milligram.min.css">
+    <link rel="stylesheet" type="text/css" href="https://www.w3schools.com/w3css/4/w3.css">
     <title>Simple Storage Dapp 예제 </title>
     <style>
     body {
@@ -21,15 +21,6 @@
         margin-right: 10px;
         text-align: right;
     }
-    #testValue1 {
-        width: 200px;
-        margin-right: 10px;
-        text-align: right;
-    }#testValue2 {
-        width: 200px;
-        margin-right: 10px;
-        text-align: right;
-    }
     </style>
 </head>
 
@@ -38,26 +29,19 @@
     <ul>
         <li>컨트랙트 주소: <span id="contractAddr"></span></li>
         <li>내 어카운트 주소: <span id="accountAddr"></span></li>
-        <li>컨트랙트에 저장된 값: <span id="storedData"></span>
-            <button onclick="getValue()">새로고침</button> (현재블록: <span id="lastBlock"></span>)</li>
+        <li>내 예금: <span id="storedData"></span>
+            <button onclick="getValue()">예금확인</button> (현재블록: <span id="lastBlock"></span>)</li>
         <li>
             <input id="newValue" type="text">
-            <button onclick="setValue()">새 값으로 저장하기</button>
+            <button onclick="setValue()">인출하기</button>
             <div id="result"></div>
         </li>
-        <li>
-        <input id="testValue1" type="text">
-        <button onclick="test1()">ACCOUNT테스트해보자</button>
-        </li>
-        <li>
-        <input id="testValue2" type="text">
-        <button onclick="test2()">CONTRACT테스트해보자</button>
-        </li>
+
         <li>새 값을 저장한 후 팬딩 트랜잭션이 블록에 포함되면 자동으로 페이지가 업데이트될 것입니다.</li>
     </ul>
 </body>
 <script src="https://cdn.rawgit.com/ethereum/web3.js/develop/dist/web3.js"></script>
 <!-- script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script -->
-<script type="text/javascript" src="./simplestorage.js"></script>
+<script type="text/javascript" src="./SimplePayableContract.js"></script>
 
 </html>

@@ -1,6 +1,5 @@
-var contractAddress = '0x350c35f340c7de692f85f78a8e52ce0c79d002c0';
-var abi = [{ "constant": false, "inputs": [{ "name": "x", "type": "string" }], "name": "set", "outputs": [], "payable": false, "type": "function" }, { "constant": true, "inputs": [], "name": "get", "outputs": [{ "name": "", "type": "string" }], "payable": false, "type": "function" }]
-var simpleStorageContract;
+var contractAddress;
+var abi = [{ "constant": false, "inputs": [{ "name": "amount", "type": "uint256" }], "name": "withdrawFunds", "outputs": [], "payable": false, "type": "function" }, { "constant": true, "inputs": [], "name": "getFunds", "outputs": [{ "name": "", "type": "uint256" }], "payable": false, "type": "function" }, { "constant": false, "inputs": [], "name": "depositFunds", "outputs": [], "payable": true, "type": "function" }, { "inputs": [], "type": "constructor", "payable": true }, { "anonymous": false, "inputs": [{ "indexed": false, "name": "_msg", "type": "string" }], "name": "updateStatus", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": false, "name": "_msg", "type": "string" }, { "indexed": false, "name": "user", "type": "address" }, { "indexed": false, "name": "amount", "type": "uint256" }], "name": "userStatus", "type": "event" }]
 var simpleStorage;
 //0x2662Ca05BE639c0F7DA2aF467e81f88f38BB9A3e
 var getParam = function(key) {
@@ -33,10 +32,11 @@ window.addEventListener('load', function() {
 
 function startApp() {
 
+
     temp = location.href.split("?");
     //data=temp[1].split(":"); data[1]
     //contractAddress = getParam('value');
-
+    contractAddress = '0xe11caa1d6857d8de15c66f4e66c2149ecfa30a66';
     simpleStorageContract = web3.eth.contract(abi);
     simpleStorage = simpleStorageContract.at(contractAddress);
     document.getElementById('contractAddr').innerHTML = getLink(contractAddress);
@@ -52,9 +52,9 @@ function getLink(addr) {
 }
 
 function getValue() {
-    simpleStorage.get(function(e, r) {
-        document.getElementById('storedData').innerHTML = r.toString();
-
+    simpleStorage.getFunds(function(e, r) {
+        document.getElementById('storedData').innerHTML = r.toNumber();
+        console.log(r);
     });
     web3.eth.getBlockNumber(function(e, r) {
         document.getElementById('lastBlock').innerHTML = r;
@@ -64,8 +64,8 @@ function getValue() {
 function setValue() {
 
     var newValue = document.getElementById('newValue').value;
-    var txid;
-    simpleStorage.set(newValue, function(e, r) {
+    var txid
+    simpleStorage.withdrawFunds(newValue, function(e, r) {
         document.getElementById('result').innerHTML = 'Transaction id: ' + r + '<span id="pending" style="color:red;">(Pending)</span>';
         txid = r;
     });
@@ -83,52 +83,15 @@ function setValue() {
     });
 }
 
-function test1() {
+function getAddress() {
 
-    var testValue1 = document.getElementById('testValue1').value;
-    showTransactions(testValue1, 1);
 
+    newValue = document.getElementById('newValue').value;
+
+    //location.href = "/simplestorage.html?"+newValue;
 
 }
 
 function test2() {
-  
-    var testValue2 = document.getElementById('testValue2').value;
-    showTransactions(testValue2, 2);
-
-}
-
-
-
-function showTransactions(address, flag) {
-
-    if (address != null) {
-
-        var LatestBlockNumber = document.getElementById('lastBlock').innerHTML;
-        var i = LatestBlockNumber - 1000;
-        var block;
-
-        for (i; i <= LatestBlockNumber; i++) {
-            web3.eth.getBlock(i, function(e, r) {
-                if (r != null && r.transactions != null) {
-                    r.transactions.forEach(function(e) {
-                        web3.eth.getTransaction(e, function(e, r) {
-                            if (!e) {
-
-                                if (flag == 1) {
-                                    if (address == r.from)
-                                        console.log(web3.toAscii(r.input).substring(68));
-                                } else {
-                                    if (address == r.to)
-                                        console.log(web3.toAscii(r.input).substring(68));
-                                }
-                            }
-                        });
-                    });
-                }
-            });
-        }
-
-
-    }
+    console.log(text2);
 }
